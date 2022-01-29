@@ -52,11 +52,24 @@
       <CollapseContainer title="下载示例" class="text-center qrcode-demo-item">
         <QrCode :value="qrCodeUrl" ref="qrRef" :logo="LogoImg" />
         <a-button class="mb-2" type="primary" @click="download"> 下载 </a-button>
-        <div class="msg"> (在线logo会导致图片跨域，需要下载图片需要自行解决跨域问题) </div>
+        <div class="msg">(在线logo会导致图片跨域，需要下载图片需要自行解决跨域问题)</div>
       </CollapseContainer>
 
       <CollapseContainer title="配置大小示例" class="text-center qrcode-demo-item">
         <QrCode :value="qrCodeUrl" :width="300" />
+      </CollapseContainer>
+
+      <CollapseContainer title="扩展绘制示例" class="text-center qrcode-demo-item">
+        <QrCode
+          :value="qrCodeUrl"
+          :width="200"
+          :options="{ margin: 5 }"
+          ref="qrDiyRef"
+          :logo="LogoImg"
+          @done="onQrcodeDone"
+        />
+        <a-button class="mb-2" type="primary" @click="downloadDiy"> 下载 </a-button>
+        <div class="msg">要进行扩展绘制则不能将tag设为img</div>
       </CollapseContainer>
     </div>
   </PageWrapper>
@@ -73,16 +86,36 @@
     components: { CollapseContainer, QrCode, PageWrapper },
     setup() {
       const qrRef = ref<Nullable<QrCodeActionType>>(null);
+      const qrDiyRef = ref<Nullable<QrCodeActionType>>(null);
       function download() {
         const qrEl = unref(qrRef);
         if (!qrEl) return;
         qrEl.download('文件名');
       }
+      function downloadDiy() {
+        const qrEl = unref(qrDiyRef);
+        if (!qrEl) return;
+        qrEl.download('Qrcode');
+      }
+
+      function onQrcodeDone({ ctx }: any) {
+        if (ctx instanceof CanvasRenderingContext2D) {
+          // 额外绘制
+          ctx.fillStyle = 'black';
+          ctx.font = '16px "微软雅黑"';
+          ctx.textBaseline = 'bottom';
+          ctx.textAlign = 'center';
+          ctx.fillText('你帅你先扫', 100, 195, 200);
+        }
+      }
       return {
+        onQrcodeDone,
         qrCodeUrl,
         LogoImg,
         download,
+        downloadDiy,
         qrRef,
+        qrDiyRef,
       };
     },
   });

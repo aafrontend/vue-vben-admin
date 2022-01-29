@@ -29,7 +29,7 @@
       height: 2000px;
       margin: 20px auto;
       text-align: center;
-      background: #fff;
+      background-color: @component-background;
       justify-content: center;
       flex-direction: column;
       align-items: center;
@@ -47,12 +47,12 @@
   }
 
   .custom-enter {
-    opacity: 0;
+    opacity: 0%;
     transform: scale(0.4) translate(100%);
   }
 
   .custom-enter-to {
-    opacity: 1;
+    opacity: 100%;
   }
 
   .custom-enter-active {
@@ -63,11 +63,11 @@
   }
 
   .custom-leave {
-    opacity: 1;
+    opacity: 100%;
   }
 
   .custom-leave-to {
-    opacity: 0;
+    opacity: 0%;
     transform: scale(0.4) translate(-100%);
   }
 

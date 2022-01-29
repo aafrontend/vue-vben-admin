@@ -8,11 +8,11 @@
 <script lang="ts">
   import type { PropType } from 'vue';
   import type { BasicColumn } from '../types/table';
-
   import { defineComponent, computed } from 'vue';
   import BasicHelp from '/@/components/Basic/src/BasicHelp.vue';
   import EditTableHeaderCell from './EditTableHeaderIcon.vue';
   import { useDesign } from '/@/hooks/web/useDesign';
+
   export default defineComponent({
     name: 'TableHeaderCell',
     components: {
@@ -22,22 +22,15 @@
     props: {
       column: {
         type: Object as PropType<BasicColumn>,
-        default: {},
+        default: () => ({}),
       },
     },
     setup(props) {
       const { prefixCls } = useDesign('basic-table-header-cell');
-      const getIsEdit = computed(() => {
-        return !!props.column?.edit;
-      });
 
-      const getTitle = computed(() => {
-        return props.column?.customTitle;
-      });
-
-      const getHelpMessage = computed(() => {
-        return props.column?.helpMessage;
-      });
+      const getIsEdit = computed(() => !!props.column?.edit);
+      const getTitle = computed(() => props.column?.customTitle);
+      const getHelpMessage = computed(() => props.column?.helpMessage);
 
       return { prefixCls, getIsEdit, getTitle, getHelpMessage };
     },
@@ -49,7 +42,7 @@
   .@{prefix-cls} {
     &__help {
       margin-left: 8px;
-      color: rgba(0, 0, 0, 0.65) !important;
+      color: rgb(0 0 0 / 65%) !important;
     }
   }
 </style>

@@ -59,8 +59,8 @@
     }
 
     &:hover {
-      background: @primary-color;
-      box-shadow: 0 0 4px 0 rgba(28, 36, 56, 0.15);
+      background-color: @primary-color;
+      box-shadow: 0 0 4px 0 rgb(28 36 56 / 15%);
     }
   }
 </style>

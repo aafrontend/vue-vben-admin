@@ -1,5 +1,5 @@
 <template>
-  <div class="m-10 auth-page"> Super 角色可见 </div>
+  <div class="m-10 auth-page">Super 角色可见</div>
 </template>
 <script lang="ts">
   import { defineComponent } from 'vue';
@@ -11,7 +11,7 @@
     height: 300px;
     font-size: 24px;
     color: #fff;
-    background: #409efe;
+    background-color: #409efe;
     border-radius: 12px;
     justify-content: center;
     align-items: center;

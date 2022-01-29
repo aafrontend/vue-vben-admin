@@ -23,18 +23,19 @@ export default defineComponent({
 
   setup(props) {
     const instance = getCurrentInstance();
-    const thumb = ref<any>(null);
+    const thumb = ref();
     const wrap = inject('scroll-bar-wrap', {} as Ref<Nullable<HTMLElement>>) as any;
     const bar = computed(() => {
       return BAR_MAP[props.vertical ? 'vertical' : 'horizontal'];
     });
-    const barStore = ref<Indexable>({});
-    const cursorDown = ref<any>(null);
+    const barStore = ref<Recordable>({});
+    const cursorDown = ref();
     const clickThumbHandler = (e: any) => {
       // prevent click event of right button
       if (e.ctrlKey || e.button === 2) {
         return;
       }
+      window.getSelection()?.removeAllRanges();
       startDrag(e);
       barStore.value[bar.value.axis] =
         e.currentTarget[bar.value.offset] -
@@ -43,7 +44,7 @@ export default defineComponent({
 
     const clickTrackHandler = (e: any) => {
       const offset = Math.abs(
-        e.target.getBoundingClientRect()[bar.value.direction] - e[bar.value.client]
+        e.target.getBoundingClientRect()[bar.value.direction] - e[bar.value.client],
       );
       const thumbHalf = thumb.value[bar.value.offset] / 2;
       const thumbPositionPercentage =
@@ -103,7 +104,7 @@ export default defineComponent({
             move: props.move,
             bar: bar.value,
           }),
-        })
+        }),
       );
   },
 });

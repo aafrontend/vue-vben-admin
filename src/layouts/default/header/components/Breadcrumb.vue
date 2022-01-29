@@ -1,9 +1,9 @@
 <template>
   <div :class="[prefixCls, `${prefixCls}--${theme}`]">
     <a-breadcrumb :routes="routes">
-      <template #itemRender="{ route, routes, paths }">
-        <Icon :icon="route.meta.icon" v-if="getShowBreadCrumbIcon && route.meta.icon" />
-        <span v-if="!hasRedirect(routes, route)">
+      <template #itemRender="{ route, routes: routesMatched, paths }">
+        <Icon :icon="getIcon(route)" v-if="getShowBreadCrumbIcon && getIcon(route)" />
+        <span v-if="!hasRedirect(routesMatched, route)">
           {{ t(route.name || route.meta.title) }}
         </span>
         <router-link v-else to="" @click="handleClick(route, paths, $event)">
@@ -15,6 +15,7 @@
 </template>
 <script lang="ts">
   import type { RouteLocationMatched } from 'vue-router';
+  import { useRouter } from 'vue-router';
   import type { Menu } from '/@/router/types';
 
   import { defineComponent, ref, watchEffect } from 'vue';
@@ -22,13 +23,10 @@
   import { Breadcrumb } from 'ant-design-vue';
   import Icon from '/@/components/Icon';
 
-  import { PageEnum } from '/@/enums/pageEnum';
-
   import { useDesign } from '/@/hooks/web/useDesign';
   import { useRootSetting } from '/@/hooks/setting/useRootSetting';
   import { useGo } from '/@/hooks/web/usePage';
   import { useI18n } from '/@/hooks/web/useI18n';
-  import { useRouter } from 'vue-router';
 
   import { propTypes } from '/@/utils/propTypes';
   import { isString } from '/@/utils/is';
@@ -49,6 +47,7 @@
       const { currentRoute } = useRouter();
       const { prefixCls } = useDesign('layout-breadcrumb');
       const { getShowBreadCrumbIcon } = useRootSetting();
+      const go = useGo();
 
       const { t } = useI18n();
       watchEffect(async () => {
@@ -72,10 +71,10 @@
         const breadcrumbList = filterItem(matched);
 
         if (currentRoute.value.meta?.currentActiveMenu) {
-          breadcrumbList.push(({
+          breadcrumbList.push({
             ...currentRoute.value,
             name: currentRoute.value.meta?.title || currentRoute.value.name,
-          } as unknown) as RouteLocationMatched);
+          } as unknown as RouteLocationMatched);
         }
         routes.value = breadcrumbList;
       });
@@ -97,7 +96,7 @@
       }
 
       function filterItem(list: RouteLocationMatched[]) {
-        let resultList = filter(list, (item) => {
+        return filter(list, (item) => {
           const { meta, name } = item;
           if (!meta) {
             return !!name;
@@ -107,9 +106,7 @@
             return false;
           }
           return true;
-        }).filter((item) => !item.meta?.hideBreadcrumb || !item.meta?.hideMenu);
-
-        return resultList;
+        }).filter((item) => !item.meta?.hideBreadcrumb);
       }
 
       function handleClick(route: RouteLocationMatched, paths: string[], e: Event) {
@@ -124,7 +121,6 @@
           return;
         }
 
-        const go = useGo();
         if (redirect && isString(redirect)) {
           go(redirect);
         } else {
@@ -142,13 +138,14 @@
       }
 
       function hasRedirect(routes: RouteLocationMatched[], route: RouteLocationMatched) {
-        if (routes.indexOf(route) === routes.length - 1) {
-          return false;
-        }
-        return true;
+        return routes.indexOf(route) !== routes.length - 1;
       }
 
-      return { routes, t, prefixCls, getShowBreadCrumbIcon, handleClick, hasRedirect };
+      function getIcon(route) {
+        return route.icon || route.meta?.icon;
+      }
+
+      return { routes, t, prefixCls, getIcon, getShowBreadCrumbIcon, handleClick, hasRedirect };
     },
   });
 </script>
@@ -172,7 +169,7 @@
         color: @breadcrumb-item-normal-color;
 
         a {
-          color: rgba(0, 0, 0, 0.65);
+          color: rgb(0 0 0 / 65%);
 
           &:hover {
             color: @primary-color;
@@ -187,10 +184,10 @@
 
     &--dark {
       .ant-breadcrumb-link {
-        color: rgba(255, 255, 255, 0.6);
+        color: rgb(255 255 255 / 60%);
 
         a {
-          color: rgba(255, 255, 255, 0.8);
+          color: rgb(255 255 255 / 80%);
 
           &:hover {
             color: @white;
@@ -200,7 +197,7 @@
 
       .ant-breadcrumb-separator,
       .anticon {
-        color: rgba(255, 255, 255, 0.8);
+        color: rgb(255 255 255 / 80%);
       }
     }
   }

@@ -1,12 +1,10 @@
-import { ref, onUnmounted, unref, nextTick, watch } from 'vue';
-
-import { isProdMode } from '/@/utils/env';
-import { error } from '/@/utils/log';
-import { getDynamicProps } from '/@/utils';
-
 import type { FormProps, FormActionType, UseFormReturnType, FormSchema } from '../types/form';
 import type { NamePath } from 'ant-design-vue/lib/form/interface';
 import type { DynamicProps } from '/#/utils';
+import { ref, onUnmounted, unref, nextTick, watch } from 'vue';
+import { isProdMode } from '/@/utils/env';
+import { error } from '/@/utils/log';
+import { getDynamicProps } from '/@/utils';
 
 export declare type ValidateFields = (nameList?: NamePath[]) => Promise<Recordable>;
 
@@ -20,7 +18,7 @@ export function useForm(props?: Props): UseFormReturnType {
     const form = unref(formRef);
     if (!form) {
       error(
-        'The form instance has not been obtained, please make sure that the form has been rendered when performing the form operation!'
+        'The form instance has not been obtained, please make sure that the form has been rendered when performing the form operation!',
       );
     }
     await nextTick();
@@ -46,7 +44,7 @@ export function useForm(props?: Props): UseFormReturnType {
       {
         immediate: true,
         deep: true,
-      }
+      },
     );
   }
 
@@ -65,6 +63,11 @@ export function useForm(props?: Props): UseFormReturnType {
       form.updateSchema(data);
     },
 
+    resetSchema: async (data: Partial<FormSchema> | Partial<FormSchema>[]) => {
+      const form = await getForm();
+      form.resetSchema(data);
+    },
+
     clearValidate: async (name?: string | string[]) => {
       const form = await getForm();
       form.clearValidate(name);
@@ -77,8 +80,7 @@ export function useForm(props?: Props): UseFormReturnType {
     },
 
     removeSchemaByFiled: async (field: string | string[]) => {
-      const form = await getForm();
-      form.removeSchemaByFiled(field);
+      unref(formRef)?.removeSchemaByFiled(field);
     },
 
     // TODO promisify
@@ -94,7 +96,7 @@ export function useForm(props?: Props): UseFormReturnType {
     appendSchemaByField: async (
       schema: FormSchema,
       prefixField: string | undefined,
-      first: boolean
+      first: boolean,
     ) => {
       const form = await getForm();
       form.appendSchemaByField(schema, prefixField, first);

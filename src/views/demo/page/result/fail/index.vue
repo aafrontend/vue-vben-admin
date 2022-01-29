@@ -6,7 +6,7 @@
       </template>
     </Result>
     <div class="result-error__content">
-      <div class="result-error__content-title"> 您提交的内容有如下错误： </div>
+      <div class="result-error__content-title">您提交的内容有如下错误：</div>
       <div class="mb-4">
         <CloseCircleOutlined class="mr-2 result-error__content-icon" />
         您的账户已被冻结
@@ -34,17 +34,16 @@
 <style lang="less" scoped>
   .result-error {
     padding: 48px 32px;
-    background: #fff;
+    background-color: @component-background;
 
     &__content {
       padding: 24px 40px;
-      background: #fafafa;
+      background-color: @background-color-light;
 
       &-title {
         margin-bottom: 16px;
         font-size: 16px;
         font-weight: 500;
-        color: rgba(0, 0, 0, 0.85);
       }
 
       &-icon {

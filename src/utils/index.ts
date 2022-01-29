@@ -1,4 +1,6 @@
 import type { RouteLocationNormalized, RouteRecordNormalized } from 'vue-router';
+import type { App, Plugin } from 'vue';
+
 import { unref } from 'vue';
 import { isObject } from '/@/utils/is';
 
@@ -40,7 +42,7 @@ export function deepMerge<T = any>(src: any = {}, target: any = {}): T {
 
 export function openWindow(
   url: string,
-  opt?: { target?: TargetContext | string; noopener?: boolean; noreferrer?: boolean }
+  opt?: { target?: TargetContext | string; noopener?: boolean; noreferrer?: boolean },
 ) {
   const { target = '__blank', noopener = true, noreferrer = true } = opt || {};
   const feature: string[] = [];
@@ -62,35 +64,6 @@ export function getDynamicProps<T, U>(props: T): Partial<U> {
   return ret as Partial<U>;
 }
 
-/**
- * set page Title
- * @param {*} title  :page Title
- */
-function setDocumentTitle(title: string) {
-  document.title = title;
-  const ua = navigator.userAgent;
-  const regex = /\bMicroMessenger\/([\d.]+)/;
-  // 兼容
-  if (regex.test(ua) && /ip(hone|od|ad)/i.test(ua)) {
-    const i = document.createElement('iframe');
-    i.src = '/favicon.ico';
-    i.style.display = 'none';
-    i.onload = function () {
-      setTimeout(function () {
-        i.remove();
-      }, 9);
-    };
-    document.body.appendChild(i);
-  }
-}
-
-export function setTitle(title: string, appTitle?: string) {
-  if (title) {
-    const _title = title ? ` ${title} - ${appTitle} ` : `${appTitle}`;
-    setDocumentTitle(_title);
-  }
-}
-
 export function getRawRoute(route: RouteLocationNormalized): RouteLocationNormalized {
   if (!route) return route;
   const { matched, ...opt } = route;
@@ -105,3 +78,14 @@ export function getRawRoute(route: RouteLocationNormalized): RouteLocationNormal
       : undefined) as RouteRecordNormalized[],
   };
 }
+
+export const withInstall = <T>(component: T, alias?: string) => {
+  const comp = component as any;
+  comp.install = (app: App) => {
+    app.component(comp.name || comp.displayName, component);
+    if (alias) {
+      app.config.globalProperties[alias] = component;
+    }
+  };
+  return component as T & Plugin;
+};

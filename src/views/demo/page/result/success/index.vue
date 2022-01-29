@@ -19,7 +19,10 @@
       </Descriptions>
       <Steps :current="1" progress-dot size="small">
         <Step title="创建项目">
-          <template #description> <div>Vben</div> <p>2016-12-12 12:32</p> </template>
+          <template #description>
+            <div>Vben</div>
+            <p>2016-12-12 12:32</p>
+          </template>
         </Step>
         <Step title="部门初审">
           <template #description>
@@ -48,11 +51,11 @@
 <style lang="less" scoped>
   .result-success {
     padding: 48px 32px;
-    background: #fff;
+    background-color: @component-background;
 
     &__content {
       padding: 24px 40px;
-      background: #fafafa;
+      background-color: @background-color-light;
     }
   }
 </style>

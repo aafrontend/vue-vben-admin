@@ -5,19 +5,17 @@ const loadingDirective: Directive = {
   mounted(el, binding) {
     const tip = el.getAttribute('loading-tip');
     const background = el.getAttribute('loading-background');
-    const theme = el.getAttribute('loading-theme');
     const size = el.getAttribute('loading-size');
     const fullscreen = !!binding.modifiers.fullscreen;
     const instance = createLoading(
       {
         tip,
         background,
-        theme,
         size: size || 'large',
         loading: !!binding.value,
         absolute: !fullscreen,
       },
-      fullscreen ? document.body : el
+      fullscreen ? document.body : el,
     );
     el.instance = instance;
   },
@@ -26,9 +24,7 @@ const loadingDirective: Directive = {
     if (!instance) return;
     instance.setTip(el.getAttribute('loading-tip'));
     if (binding.oldValue !== binding.value) {
-      if (binding.oldValue !== binding.value) {
-        instance.setLoading?.(binding.value && !instance.loading);
-      }
+      instance.setLoading?.(binding.value && !instance.loading);
     }
   },
   unmounted(el) {

@@ -1,6 +1,6 @@
 <template>
   <PageWrapper title="Ripple示例">
-    <div class="demo-box" v-ripple> content </div>
+    <div class="demo-box" v-ripple>content</div>
   </PageWrapper>
 </template>
 <script lang="ts">
@@ -23,7 +23,7 @@
     height: 300px;
     font-size: 24px;
     color: #fff;
-    background: #408ede;
+    background-color: #408ede;
     border-radius: 10px;
     justify-content: center;
     align-items: center;

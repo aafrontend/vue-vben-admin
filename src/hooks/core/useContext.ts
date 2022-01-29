@@ -21,7 +21,7 @@ type ShallowUnwrap<T> = {
 export function createContext<T>(
   context: any,
   key: InjectionKey<T> = Symbol(),
-  options: CreateContextOptions = {}
+  options: CreateContextOptions = {},
 ) {
   const { readonly = true, createProvider = false, native = false } = options;
 
@@ -29,19 +29,7 @@ export function createContext<T>(
   const provideData = readonly ? defineReadonly(state) : state;
   !createProvider && provide(key, native ? context : provideData);
 
-  // const Provider = createProvider
-  //   ? defineComponent({
-  //       name: 'Provider',
-  //       inheritAttrs: false,
-  //       setup(_, { slots }) {
-  //         provide(key, provideData);
-  //         return () => slots.default?.();
-  //       },
-  //     })
-  //   : null;
-
   return {
-    // Provider,
     state,
   };
 }
@@ -51,7 +39,7 @@ export function useContext<T>(key: InjectionKey<T>, defaultValue?: any, native?:
 
 export function useContext<T>(
   key: InjectionKey<T> = Symbol(),
-  defaultValue?: any
+  defaultValue?: any,
 ): ShallowUnwrap<T> {
   return inject(key, defaultValue || {});
 }

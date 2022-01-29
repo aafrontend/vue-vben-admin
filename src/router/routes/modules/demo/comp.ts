@@ -9,6 +9,7 @@ const comp: AppRouteModule = {
   component: LAYOUT,
   redirect: '/comp/basic',
   meta: {
+    orderNo: 30,
     icon: 'ion:layers-outline',
     title: t('routes.demo.comp.comp'),
   },
@@ -87,6 +88,14 @@ const comp: AppRouteModule = {
           component: () => import('/@/views/demo/form/CustomerForm.vue'),
           meta: {
             title: t('routes.demo.form.customerForm'),
+          },
+        },
+        {
+          path: 'appendForm',
+          name: 'appendFormDemo',
+          component: () => import('/@/views/demo/form/AppendForm.vue'),
+          meta: {
+            title: t('routes.demo.form.appendForm'),
           },
         },
       ],
@@ -222,6 +231,22 @@ const comp: AppRouteModule = {
             title: t('routes.demo.table.editRowTable'),
           },
         },
+        {
+          path: 'authColumn',
+          name: 'AuthColumnDemo',
+          component: () => import('/@/views/demo/table/AuthColumn.vue'),
+          meta: {
+            title: t('routes.demo.table.authColumn'),
+          },
+        },
+        {
+          path: 'resizeParentHeightTable',
+          name: 'ResizeParentHeightTable',
+          component: () => import('/@/views/demo/table/ResizeParentHeightTable.vue'),
+          meta: {
+            title: t('routes.demo.table.resizeParentHeightTable'),
+          },
+        },
       ],
     },
     {
@@ -232,6 +257,15 @@ const comp: AppRouteModule = {
         title: t('routes.demo.comp.transition'),
       },
     },
+    {
+      path: 'cropper',
+      name: 'CropperDemo',
+      component: () => import('/@/views/demo/comp/cropper/index.vue'),
+      meta: {
+        title: t('routes.demo.comp.cropperImage'),
+      },
+    },
+
     {
       path: 'timestamp',
       name: 'TimeDemo',
@@ -294,6 +328,14 @@ const comp: AppRouteModule = {
         title: t('routes.demo.editor.editor'),
       },
       children: [
+        {
+          path: 'json',
+          component: () => import('/@/views/demo/editor/json/index.vue'),
+          name: 'JsonEditorDemo',
+          meta: {
+            title: t('routes.demo.editor.jsonEditor'),
+          },
+        },
         {
           path: 'markdown',
           component: getParentLayout('MarkdownDemo'),
@@ -498,6 +540,14 @@ const comp: AppRouteModule = {
       component: () => import('/@/views/demo/comp/loading/index.vue'),
       meta: {
         title: t('routes.demo.comp.loading'),
+      },
+    },
+    {
+      path: 'cardList',
+      name: 'CardListDemo',
+      component: () => import('/@/views/demo/comp/card-list/index.vue'),
+      meta: {
+        title: t('routes.demo.comp.cardList'),
       },
     },
   ],

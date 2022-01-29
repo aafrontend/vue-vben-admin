@@ -35,7 +35,7 @@
       },
       handler: {
         type: Function as PropType<Fn>,
-        default: () => {},
+        default: () => ({}),
       },
       def: {
         type: String,
@@ -66,7 +66,7 @@
       cursor: pointer;
       background-color: #f0f2f5;
       border-radius: 4px;
-      box-shadow: 0 1px 2.5px 0 rgba(0, 0, 0, 0.18);
+      box-shadow: 0 1px 2.5px 0 rgb(0 0 0 / 18%);
 
       &::before,
       &::after {
@@ -74,7 +74,8 @@
         content: '';
       }
 
-      &--sidebar {
+      &--sidebar,
+      &--light {
         &::before {
           top: 0;
           left: 0;
@@ -124,6 +125,10 @@
         }
       }
 
+      &--dark {
+        background-color: #273352;
+      }
+
       &--mix-sidebar {
         &::before {
           top: 0;
@@ -151,17 +156,6 @@
           background-color: #fff;
         }
       }
-
-      // &::after {
-      //   position: absolute;
-      //   top: 50%;
-      //   left: 50%;
-      //   width: 0;
-      //   height: 0;
-      //   content: '';
-      //   opacity: 0;
-      //   transition: all 0.3s;
-      // }
 
       &:hover,
       &--active {

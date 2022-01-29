@@ -1,6 +1,5 @@
 // Image resource files used to compress the output of the production environment
 // https://github.com/anncwb/vite-plugin-imagemin
-
 import viteImagemin from 'vite-plugin-imagemin';
 
 export function configImageminPlugin() {
@@ -12,11 +11,8 @@ export function configImageminPlugin() {
     optipng: {
       optimizationLevel: 7,
     },
-    webp: {
-      quality: 75,
-    },
     mozjpeg: {
-      quality: 8,
+      quality: 20,
     },
     pngquant: {
       quality: [0.8, 0.9],
@@ -25,10 +21,11 @@ export function configImageminPlugin() {
     svgo: {
       plugins: [
         {
-          removeViewBox: false,
+          name: 'removeViewBox',
         },
         {
-          removeEmptyAttrs: false,
+          name: 'removeEmptyAttrs',
+          active: false,
         },
       ],
     },
